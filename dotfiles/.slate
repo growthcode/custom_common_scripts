@@ -1,0 +1,100 @@
+####=> slate configuration file
+#### NEW to slate? Simply rename me to exactly '.slate' and save me in your home direcotry
+
+# Useful links:
+# * __Example Configuration__ - https://github.com/jigish/slate/blob/master/Slate/default.slate
+# * http://thume.ca/howto/2012/11/19/using-slate/
+# * http://larryhynes.net/2013/11/simple-slate-configuration.html
+
+
+# ————Shortcuts Cheat Sheet————
+#
+# UNDO:       “slate_key2 =“
+#
+# Maximize: “slate_key2 m”
+#
+# 1/2 Left: “slate_keys2 arrow_left”
+# 1/2 Right: “slate_keys2  arrow_right”
+# 1/2 Up: “slate_keys2  arrow_up”
+# 1/2 Down: “slate_keys2  arrow_down”
+#
+# 2/3 Left:   “slate_key2 ,”
+# 2/3 Right:  “slate_key2 .”
+#
+# 1/3 Left:   “slate_key ,”
+# 1/3 Right:  “slate_key .”
+#
+# 1/4 Left: “slate_key shift arrow_left”
+# 1/4 Right: “slate_key shift arrow_right”
+# 1/4 Up: “slate_key shift arrow_up”
+# 1/4 Down: “slate_key shift arrow_down”
+#
+# Corner TL: “slate_key2 [“
+# Corner TR: “slate_key2 ]“
+# Corner BL: “slate_key2 ;“
+# Corner BR: “slate_key2 ( “ which_is_also ‘ )“
+#
+# Center Screen 1/3: “slate_key2 /“
+# Center Screen 1/4: “slate_key /“
+#
+# Monitor 1: “slate_key2 9”
+# Monitor 2: “slate_key2 0”
+# Monitor 3: “slate_key2 3”
+# Monitor 4: “slate_key2 4”
+# ————Shortcuts Cheat Sheet End————
+
+
+config defaultToCurrentScreen true
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+
+alias slate_keys cmd;ctrl
+alias slate_keys2 cmd;ctrl;alt
+
+# multiple monitors
+bind 8:${slate_keys2} throw 0
+bind 9:${slate_keys2} throw 1
+bind 0:${slate_keys2} throw 2
+
+# global application hotkeys
+bind t:${slate_keys} shell path:~/ '/usr/bin/open -a /Applications/Utilities/Terminal.app'
+
+# relaunch slate
+bind esc:${slate_keys} relaunch
+
+# undo
+bind =:${slate_keys2} undo
+
+# window hints for focus
+bind h:${slate_keys} hint QWERTYUIOP
+
+# maximize
+bind m:${slate_keys2} move screenOriginX;screenOriginY screenSizeX;screenSizeY
+
+# 1/2 screen push
+bind up:${slate_keys2}     push up    bar-resize:screenSizeY/2
+bind down:${slate_keys2}   push down  bar-resize:screenSizeY/2
+bind left:${slate_keys2}   push left  bar-resize:screenSizeX/2
+bind right:${slate_keys2}  push right bar-resize:screenSizeX/2
+
+# 1/3 screen push
+bind ,:${slate_keys} push left   bar-resize:screenSizeX/3
+bind .:${slate_keys} push right  bar-resize:screenSizeX/3
+
+# 2/3 screen push
+bind ,:${slate_keys2} push left   bar-resize:screenSizeX/3*2
+bind .:${slate_keys2} push right  bar-resize:screenSizeX/3*2
+
+# 1/4 screen push
+bind ,:shift;${slate_keys} push left   bar-resize:screenSizeX/4
+bind .:shift;${slate_keys} push right  bar-resize:screenSizeX/4
+
+# center screen move
+bind /:${slate_keys2}       move screenOriginX+screenSizeX/4;screenOriginY screenSizeX/2;screenSizeY
+bind /:${slate_keys} move screenOriginX+screenSizeX/3;screenOriginY screenSizeX/3;screenSizeY
+
+# corners
+bind ]:${slate_keys2} move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY/2
+bind ':${slate_keys2} move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY/2 screenSizeX/2;screenSizeY/2
+bind ;:${slate_keys2} move screenOriginX;screenOriginY+screenSizeY/2 screenSizeX/2;screenSizeY/2
+bind [:${slate_keys2} move screenOriginX;screenOriginY screenSizeX/2;screenSizeY/2
