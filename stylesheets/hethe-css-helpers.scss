@@ -1,0 +1,37 @@
+// quickly identify outlines
+// Put into HTML, example: <h1 class="red">Headline</h1>
+
+// "@extend" the class into a scss selection, example
+// .flock-headline {
+//   @extend .red;
+// }
+
+// default size is 2px thick
+// change the default by adding a dash ("-") and number up to 10, example:
+// .red-5 --> this will add a 5px thick red outline
+// .green-8 --> this will add a 8px thick green outline
+
+$colors: ("red", "orange", "yellow", "green", "blue", "pink", "purple", "white", "black");
+@each $color in $colors {
+  .#{$color} {
+    outline: 2px solid #{$color};
+  }
+
+  @for $pixel from 1 through 10 {
+    .#{$color}-#{$pixel} {
+      outline: #{$pixel}px solid #{$color};
+    }
+  }
+}
+
+// for awesome print in the view when using bootstrap;
+// like <%= ap(@object).html_safe %>
+.container pre.debug_dump kbd {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #EDF279;
+  background-color: #f5f5f5;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: inset none;
+}
