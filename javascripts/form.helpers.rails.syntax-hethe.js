@@ -1,35 +1,35 @@
-FormHelpers = function createNewPerson(){}
+FormHelpers = function(){}
 FormHelpers.prototype.date_tag = function(name, value , html_options) {
   if(! (value instanceof Date))
-	value = new Date()
+  value = new Date()
 
-	var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	var years = [], months = [], days =[];
-	var year = value.getFullYear();
-	var month = value.getMonth();
-	var day = value.getDate();
-	for(var y = year - 15; y < year+15 ; y++)
-	{
-		years.push({value: y, text: y})
-	}
-	for(var m = 0; m < 12; m++)
-	{
-		months.push({value: (m), text: month_names[m]})
-	}
-	for(var d = 0; d < 31; d++)
-	{
-		days.push({value: (d+1), text: (d+1)})
-	}
-	var year_select = this.select_tag_deprecated(name+'[year]', year, years, {id: name+'[year]'} )
-	var month_select = this.select_tag_deprecated(name+'[month]', month, months, {id: name+'[month]'})
-	var day_select = this.select_tag_deprecated(name+'[day]', day, days, {id: name+'[day]'})
+  var month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var years = [], months = [], days =[];
+  var year = value.getFullYear();
+  var month = value.getMonth();
+  var day = value.getDate();
+  for(var y = year - 15; y < year+15 ; y++)
+  {
+    years.push({value: y, text: y})
+  }
+  for(var m = 0; m < 12; m++)
+  {
+    months.push({value: (m), text: month_names[m]})
+  }
+  for(var d = 0; d < 31; d++)
+  {
+    days.push({value: (d+1), text: (d+1)})
+  }
+  var year_select = this.select_tag_deprecated(name+'[year]', year, years, {id: name+'[year]'} )
+  var month_select = this.select_tag_deprecated(name+'[month]', month, months, {id: name+'[month]'})
+  var day_select = this.select_tag_deprecated(name+'[day]', day, days, {id: name+'[day]'})
 
   return year_select+month_select+day_select;
 }
 
 FormHelpers.prototype.form_tag = function(action, html_options) {
   html_options = html_options || {};
-	html_options.action = action
+  html_options.action = action
   if(html_options.multipart == true) {
       html_options.method = 'post';
       html_options.enctype = 'multipart/form-data';
@@ -77,60 +77,60 @@ FormHelpers.prototype.file_field_tag = function(name, value, html_options) {
 }
 
 FormHelpers.prototype.is_current_page = function(url) {
-	return (window.location.href == url || window.location.pathname == url ? true : false);
+  return (window.location.href == url || window.location.pathname == url ? true : false);
 }
 
 FormHelpers.prototype.link_to = function(name, url, html_options) {
     if(!name) var name = 'null';
     if(!html_options) var html_options = {}
 
-	if(html_options.confirm){
-		html_options.onclick =
-		" var ret_confirm = confirm(\""+html_options.confirm+"\"); if(!ret_confirm){ return false;} "
-		html_options.confirm = null;
-	}
+  if(html_options.confirm){
+    html_options.onclick =
+    " var ret_confirm = confirm(\""+html_options.confirm+"\"); if(!ret_confirm){ return false;} "
+    html_options.confirm = null;
+  }
     html_options.href=url
     return this.start_tag_for('a', html_options)+name+ this.tag_end('a');
 }
 
 FormHelpers.prototype.submit_link_to = function(name, url, html_options){
-	if(!name) var name = 'null';
+  if(!name) var name = 'null';
     if(!html_options) var html_options = {}
     html_options.onclick = html_options.onclick  || '' ;
 
-	if(html_options.confirm){
-		html_options.onclick =
-		" var ret_confirm = confirm(\""+html_options.confirm+"\"); if(!ret_confirm){ return false;} "
-		html_options.confirm = null;
-	}
+  if(html_options.confirm){
+    html_options.onclick =
+    " var ret_confirm = confirm(\""+html_options.confirm+"\"); if(!ret_confirm){ return false;} "
+    html_options.confirm = null;
+  }
 
     html_options.value = name;
-	html_options.type = 'submit'
+  html_options.type = 'submit'
     html_options.onclick=html_options.onclick+
-		(url ? this.url_for(url) : '')+'return false;';
+    (url ? this.url_for(url) : '')+'return false;';
     //html_options.href='#'+(options ? Routes.url_for(options) : '')
-	return this.start_tag_for('input', html_options)
+  return this.start_tag_for('input', html_options)
 }
 
 FormHelpers.prototype.link_to_if = function(condition, name, url, html_options, post, block) {
-	return this.link_to_unless((condition == false), name, url, html_options, post, block);
+  return this.link_to_unless((condition == false), name, url, html_options, post, block);
 }
 
 FormHelpers.prototype.link_to_unless = function(condition, name, url, html_options, block) {
-	html_options = html_options || {};
-	if(condition) {
-		if(block && typeof block == 'function') {
-			return block(name, url, html_options, block);
-		} else {
-			return name;
-		}
-	} else
-		return this.link_to(name, url, html_options);
+  html_options = html_options || {};
+  if(condition) {
+    if(block && typeof block == 'function') {
+      return block(name, url, html_options, block);
+    } else {
+      return name;
+    }
+  } else
+    return this.link_to(name, url, html_options);
 }
 
 FormHelpers.prototype.link_to_unless_current = function(name, url, html_options, block) {
-	html_options = html_options || {};
-	return this.link_to_unless(this.is_current_page(url), name, url, html_options, block)
+  html_options = html_options || {};
+  return this.link_to_unless(this.is_current_page(url), name, url, html_options, block)
 }
 
 FormHelpers.prototype.password_field_tag = function(name, value, html_options) { return this.input_field_tag(name, value, 'password', html_options); }
@@ -169,7 +169,7 @@ FormHelpers.prototype.options_for_select = function(choices, selected) {
       var choice = parsed_choices[i];
       var optionOptions = {value: choice.value}
       if (choice.value == selected) {
-        optionOptions.selected ='selected'
+        optionOptions.selected = 'selected'
       }
       txt += this.start_tag_for('option', optionOptions )+choice.text+this.tag_end('option')
     }
@@ -177,14 +177,26 @@ FormHelpers.prototype.options_for_select = function(choices, selected) {
   return txt;
 }
 
-// Use `#options_for_select` to generate `option_tags`
+// Use `FormHelpers#options_for_select` to generate `option_tags`
 FormHelpers.prototype.select_tag = function(name, options_for_select, html_options) {
   html_options = html_options || {};
   html_options.id  = html_options.id  || name;
   html_options.name = name;
 
+  option_tags_from_html_options = ''
+  if (_.isDefined(html_options.prompt)) {
+    option_tags_from_html_options += '<option value="">' + html_options.prompt + '</option>'
+  } else if ( _.isDefined(html_options.include_blank) &&
+              html_options.include_blank.toString() == 'true'
+            ) {
+    option_tags_from_html_options += '<option value=""></option>'
+  }
+  delete html_options.prompt
+  delete html_options.include_blank
+
   var txt = ''
   txt += this.start_tag_for('select', html_options)
+  txt += option_tags_from_html_options
   txt += options_for_select
   txt += this.tag_end('select');
   return txt;
@@ -195,7 +207,7 @@ FormHelpers.prototype.select_tag_deprecated = function(name, value, choices, htm
   html_options = html_options || {};
   html_options.id  = html_options.id  || name;
   html_options.value = value;
-	html_options.name = name;
+  html_options.name = name;
 
   var txt = ''
   txt += this.start_tag_for('select', html_options)
@@ -228,7 +240,7 @@ FormHelpers.prototype.tag = function(tag, html_options, end) {
     if(!end) var end = '>'
     var txt = ' '
     for(var attr in html_options) {
-	   if(html_options[attr] != null)
+     if(html_options[attr] != null)
         var value = html_options[attr].toString();
        else
         var value=''
@@ -248,7 +260,7 @@ FormHelpers.prototype.text_area_tag = function(name, value, html_options) {
     html_options = html_options || {};
     html_options.id  = html_options.id  || name;
     html_options.name  = html_options.name  || name;
-	value = value || ''
+  value = value || ''
     if(html_options.size) {
         html_options.cols = html_options.size.split('x')[0]
         html_options.rows = html_options.size.split('x')[1];
@@ -276,7 +288,7 @@ FormHelpers.prototype.img_tag = function(image_location, alt, options){
   return this.single_tag_for('img', options)
 }
 FormHelpers.prototype.image_tag = function(image_location, alt, options){
-	options = options || {};
+  options = options || {};
   options.src = image_location
   options.alt = alt
   return this.single_tag_for('img', options)
