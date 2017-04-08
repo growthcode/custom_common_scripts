@@ -26,7 +26,8 @@ $colors: ("red", "orange", "yellow", "green", "blue", "pink", "purple", "white",
 
 // for awesome print in the view when using bootstrap;
 // like <%= ap(@object).html_safe %>
-.container pre.debug_dump kbd {
+// .container pre.debug_dump kbd {
+.container *:not(.highlight *) pre.debug_dump kbd {
   padding: 2px 4px;
   font-size: 90%;
   color: #EDF279;
