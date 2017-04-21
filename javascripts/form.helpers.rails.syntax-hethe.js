@@ -39,20 +39,38 @@ FormHelpers.prototype.date_tag = function(name, value , html_options) {
    return year_select+month_select+day_select;
 }
 
+FormHelpers.prototype.csrf_meta_tag = function(){
+  var csrf_meta_tag = ''
+  var $csrfToken = $('[name="csrf-token"]')
+  if ($csrfToken.length > 0) {
+    csrf_meta_tag += '<input name="authenticity_token" type="hidden" value="' + $csrfToken[0].content + '">'
+  }
+  return csrf_meta_tag
+}
+
 FormHelpers.prototype.form_tag = function(action, html_options) {
   html_options = html_options || {};
+  var method_input = ''
+  if (_.isDefined(html_options.method)) {
+    method_input = this.method_tag(html_options.method)
+    html_options.method = 'post'
+  }
   html_options.action = action
   if(html_options.multipart == true) {
       html_options.method = 'post';
       html_options.enctype = 'multipart/form-data';
   }
-  return this.start_tag_for('form', html_options)
+  return (this.start_tag_for('form', html_options) + method_input + this.csrf_meta_tag())
 }
 
 FormHelpers.prototype.form_tag_end = function() { return this.tag_end('form'); }
 
 FormHelpers.prototype.hidden_field_tag = function(name, value, html_options) {
   return this.input_field_tag(name, value, 'hidden', html_options);
+}
+
+FormHelpers.prototype.method_tag = function(method) {
+  return this.hidden_field_tag('_method', method);
 }
 
 FormHelpers.prototype.input_field_tag = function(name, value , inputType, html_options) {
@@ -244,11 +262,11 @@ FormHelpers.prototype.start_tag_for = function(tag, html_options) {
 }
 
 FormHelpers.prototype.submit_tag = function(name, html_options) {
-    html_options = html_options || {};
-    //html_options.name  = html_options.id  || 'commit';
-    html_options.type = html_options.type  || 'submit';
-    html_options.value = name || 'Submit';
-    return this.single_tag_for('input', html_options);
+  html_options = html_options || {};
+  //html_options.name  = html_options.id  || 'commit';
+  html_options.type = html_options.type  || 'submit';
+  html_options.value = name || 'Submit';
+  return this.single_tag_for('input', html_options);
 }
 
 FormHelpers.prototype.tag = function(tag, html_options, end) {
